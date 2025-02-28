@@ -6,27 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\EndPointCollection;
 use App\Http\Resources\EndPointResource;
 use App\Models\Endpoint;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class EndPointController extends Controller
 {
-    public function index()
+    public function index():EndPointCollection
     {
-        $sortFields =Str::of(request()->query('sort'))->explode(',');
-        $endPointQuery = Endpoint::query();
-        foreach ($sortFields as $sortField) {
-            $direction = 'asc';
-            if(Str::of($sortField)->startsWith('-')){
-                $direction = 'desc';
-                $sortField = Str::of($sortField)->replace('-','');
-            }
-            $endPointQuery->orderBy($sortField,$direction);
-        }
+       $endPoint = Endpoint::applySorts(request('sort'))->get();
 
-        return EndPointCollection::make($endPointQuery->get());
+        return EndPointCollection::make($endPoint);
     }
-    public function show(Endpoint $endpoint)
+    public function show(Endpoint $endpoint):EndPointResource
     {
         return EndPointResource::make($endpoint);
     }

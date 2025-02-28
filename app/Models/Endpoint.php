@@ -2,19 +2,18 @@
 
 namespace App\Models;
 
+
+use App\Models\Traits\HasSorts;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Endpoint extends Model
 {
-    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    use HasFactory, HasSorts;
+
+    public array $allowedSorts = ['title', 'content'];
     protected $fillable = [
         'title',
         'slug',
@@ -23,11 +22,7 @@ class Endpoint extends Model
         'user_id',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+
     protected $casts = [
         'id' => 'integer',
         'category_id' => 'integer',
@@ -43,4 +38,6 @@ class Endpoint extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
 }

@@ -5,6 +5,7 @@ namespace Tests\Feature\EndPoint;
 use App\Models\Endpoint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class SortEndPointsTest extends TestCase
@@ -37,7 +38,6 @@ class SortEndPointsTest extends TestCase
             ]
         );
     }
-
 
     #[Test]
     public function it_can_sort_endpoints_by_title_and_content(): void
@@ -74,5 +74,15 @@ class SortEndPointsTest extends TestCase
                 $endpoint1->title,
             ]
         );
+    }
+
+    #[Test]
+    public function it_cannot_sort_endpoints_by_unknowns_fields(): void
+    {
+        Endpoint::factory()->count(3)->create();
+
+        $url = route('api.v1.endpoints.index', ['sort' => 'unknown']);
+
+        $this->getJson($url)->assertStatus( Response::HTTP_BAD_REQUEST); //400
     }
 }
