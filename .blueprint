@@ -1,0 +1,14 @@
+created:
+    - database/factories/EndpointFactory.php
+    - database/factories/CredentialFactory.php
+    - database/factories/CategoryFactory.php
+    - database/migrations/2025_02_26_230108_create_endpoints_table.php
+    - database/migrations/2025_02_26_230109_create_credentials_table.php
+    - database/migrations/2025_02_26_230110_create_categories_table.php
+    - app/Models/Endpoint.php
+    - app/Models/Credential.php
+    - app/Models/Category.php
+models:
+    Endpoint: { title: string, slug: 'string unique', content: longtext, category_id: id, user_id: id }
+    Credential: { name: string, password: string, relationships: { hasMany: Endpoint } }
+    Category: { name: string, slug: 'string unique', relationships: { hasMany: Endpoint } }

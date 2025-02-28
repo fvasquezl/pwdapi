@@ -1,0 +1,17 @@
+models:
+  Endpoint:
+    title: string
+    slug: string unique
+    content: longtext
+    category_id: id
+    user_id: id
+  Credential:
+    name: string
+    password: string
+    relationships:
+      hasMany: Endpoint
+  Category:
+    name: string
+    slug: string unique
+    relationships:
+      hasMany: Endpoint
